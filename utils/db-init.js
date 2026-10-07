@@ -14,13 +14,66 @@ const defaultCategories = [
   { id: 'cat-stores', name_ar: 'متاجر ومطاعم', name_en: 'Stores & Food', type: 'store' }
 ];
 
+// Preserved admin accounts with your exact password hash
+const adminPasswordHash = "$2a$10$GzUcaPrGeQ3QNiT5jW5uBOadT17RuKD/dJeoI4Sm68mD0UdAgt0ky";
+
+const defaultAdmins = [
+  {
+    id: "3ecf744c-2a5d-429a-a7f2-f871de747c7f",
+    name: "Eng/AbdallahOmar",
+    email: "bodaomar155@gmail.com",
+    passwordHash: adminPasswordHash,
+    role: "primary_admin",
+    phone: "",
+    whatsapp: "",
+    status: "active",
+    permissions: [],
+    createdAt: "2026-09-30T23:52:15.423Z"
+  },
+  {
+    id: "admin-gmail-id",
+    name: "Eng/AbdallahOmar",
+    email: "admin@gmail.com",
+    passwordHash: adminPasswordHash,
+    role: "primary_admin",
+    phone: "",
+    whatsapp: "",
+    status: "active",
+    permissions: [],
+    createdAt: "2026-09-30T23:52:15.423Z"
+  },
+  {
+    id: "admin-ras-id",
+    name: "Eng/AbdallahOmar",
+    email: "admin@ras.com",
+    passwordHash: adminPasswordHash,
+    role: "primary_admin",
+    phone: "",
+    whatsapp: "",
+    status: "active",
+    permissions: [],
+    createdAt: "2026-09-30T23:52:15.423Z"
+  },
+  {
+    id: "69e71069-c1f0-49c3-b41f-ee8ea8ae81f0",
+    name: "Eng/MohamedOmar",
+    email: "midoomar@gmail.com",
+    passwordHash: "$2a$10$Tx0jyxqZQLm0hASfozMDjuglwirMHfJ/aoyrhjOlU.U0BHx1DLYEm",
+    role: "secondary_admin",
+    phone: "",
+    whatsapp: "",
+    status: "active",
+    permissions: ["users", "listings", "categories", "reports", "content"],
+    createdAt: "2026-10-03T23:38:34.212Z"
+  }
+];
+
 async function initDatabase() {
   try {
     // 1. Read database.sql and execute table creation
     const sqlPath = path.join(__dirname, '..', 'database.sql');
     if (fs.existsSync(sqlPath)) {
       const sqlContent = fs.readFileSync(sqlPath, 'utf8');
-      // Split by semicolon, filter comments and empty queries
       const statements = sqlContent
         .replace(/--.*$/gm, '')
         .split(';')
@@ -31,7 +84,6 @@ async function initDatabase() {
         try {
           await db.pool.query(statement);
         } catch (err) {
-          // Ignore if table already exists or minor syntax variation
           if (!err.message.includes('already exists')) {
             console.warn('DB Init statement warning:', err.message);
           }
@@ -49,37 +101,26 @@ async function initDatabase() {
       console.log('✓ Categories seeded.');
     }
 
-    // 3. Ensure Primary Admin
-    const primaryAdmins = await db.findMany('users', { role: 'primary_admin' });
-    if (primaryAdmins.length === 0) {
-      const email = (process.env.ADMIN_EMAIL || 'admin@ras.com').toLowerCase();
-      const password = process.env.ADMIN_PASSWORD || 'Admin@12345';
-      const existing = await db.findOne('users', { email });
+    // 3. Ensure all Admins exist and are active with correct password
+    for (const adminUser of defaultAdmins) {
+      const existing = await db.findOne('users', { email: adminUser.email });
       if (!existing) {
-        console.log(`Creating default Primary Admin (${email})...`);
-        await db.insert('users', {
-          id: uuidv4(),
-          name: 'مدير المنصة',
-          email,
-          passwordHash: bcrypt.hashSync(password, 10),
-          role: 'primary_admin',
-          phone: '',
-          whatsapp: '',
-          status: 'active',
-          permissions: [],
-          createdAt: new Date().toISOString()
-        });
-        console.log('✓ Primary Admin created.');
+        await db.insert('users', adminUser);
+        console.log(`✓ Created admin account: ${adminUser.email}`);
       } else {
-        await db.update('users', { id: existing.id }, { role: 'primary_admin', status: 'active' });
+        await db.update('users', { id: existing.id }, {
+          role: adminUser.role,
+          status: 'active',
+          passwordHash: adminUser.passwordHash
+        });
+        console.log(`✓ Updated admin account: ${adminUser.email}`);
       }
     }
 
-    console.log('✅ Database schema and defaults verified.');
+    console.log('✅ Database schema, categories, and admin accounts verified.');
   } catch (error) {
-    console.error('Database auto-init error (safe to ignore if already configured):', error.message);
+    console.error('Database auto-init error:', error.message);
   }
 }
 
 module.exports = { initDatabase };
-
