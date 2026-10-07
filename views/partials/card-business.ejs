@@ -1,0 +1,13 @@
+<div class="col-6 col-md-4 col-lg-3" data-reveal>
+  <a href="/businesses/<%= b.id %>" class="text-decoration-none">
+    <div class="card listing-card h-100">
+      <div class="card-img-wrap">
+        <img src="<%= (b.photos && b.photos[0]) || '/img/placeholder.svg' %>" onerror="this.src='/img/placeholder.svg'" class="card-img-top" alt="<%= b.name %>">
+      </div>
+      <div class="card-body">
+        <h6 class="card-title text-truncate mb-1"><%= b.name %></h6>
+        <p class="card-text text-muted small mb-0"><i class="bi bi-geo-alt"></i> <%= b.address %></p>
+      </div>
+    </div>
+  </a>
+</div>

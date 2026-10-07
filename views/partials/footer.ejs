@@ -1,0 +1,35 @@
+<footer class="main-footer">
+  <div class="container">
+    <div class="row g-4 align-items-center justify-content-between mb-4 pb-4 border-bottom border-secondary border-opacity-25">
+      <div class="col-md-6 text-center text-md-start">
+        <div class="d-inline-flex align-items-center gap-2 mb-2">
+          <span class="brand-mark" style="width: 36px; height: 36px; font-size: 1rem;"><i class="bi bi-geo-alt-fill"></i></span>
+          <strong style="font-size: 1.25rem; color: #fff;"><%= lang === 'ar' ? 'رأس غارب' : 'Ras Ghareb' %></strong>
+        </div>
+        <p class="mb-0 text-white-50" style="font-size: 0.95rem;">
+          <%= lang === 'ar' ? 'دليل المدينة الرقمي — أفكار ملهمة، صُنعت بدقة وهدوء.' : 'Independent local platform — bold ideas, shipped with quiet precision.' %>
+        </p>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <button type="button" class="pill-btn light has-arrow" data-open-modal style="font-size: 0.9rem;">
+          <span><%= lang === 'ar' ? 'ابدأ مشروعك أو تواصل' : 'Start a project' %></span>
+          <span class="pill-arrow-badge up-right"><i class="bi bi-arrow-up-left"></i></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 text-white-50 small">
+      <div class="d-flex flex-wrap gap-3">
+        <a href="/marketplace" class="text-white-50"><%= t('nav_marketplace') %></a>
+        <a href="/professionals" class="text-white-50"><%= t('nav_professionals') %></a>
+        <a href="/stores" class="text-white-50"><%= t('nav_stores') %></a>
+        <a href="/businesses" class="text-white-50"><%= t('nav_businesses') %></a>
+        <a href="/about" class="text-white-50"><%= lang === 'ar' ? 'عن المنصة' : 'About' %></a>
+        <a href="/contact" class="text-white-50"><%= lang === 'ar' ? 'اتصل بنا' : 'Contact' %></a>
+      </div>
+      <div>
+        <span>© <%= new Date().getFullYear() %> <%= lang === 'ar' ? 'منصة رأس غارب. جميع الحقوق محفوظة.' : 'Ras Ghareb Platform. All rights reserved.' %></span>
+      </div>
+    </div>
+  </div>
+</footer>

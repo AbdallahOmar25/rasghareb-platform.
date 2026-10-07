@@ -1,0 +1,39 @@
+<div class="container my-4">
+  <h3 class="mb-4"><i class="bi bi-speedometer2"></i> <%= t('admin_dashboard') %></h3>
+  <div class="alert alert-light border">
+    <strong><%= isPrimary ? 'Primary Admin' : 'Secondary Admin' %></strong>
+    <% if (!isPrimary) { %>
+      <span class="text-muted"> — <%= (currentUser.permissions || []).join(', ') || 'No permissions assigned' %></span>
+    <% } %>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3"><div class="card p-3 text-center"><h4><%= stats.users %></h4><small><%= t('users') %></small></div></div>
+    <div class="col-6 col-md-3"><div class="card p-3 text-center"><h4><%= stats.products %></h4><small><%= t('nav_marketplace') %></small></div></div>
+    <div class="col-6 col-md-3"><div class="card p-3 text-center"><h4><%= stats.professionals %></h4><small><%= t('nav_professionals') %></small></div></div>
+    <div class="col-6 col-md-3"><div class="card p-3 text-center"><h4><%= stats.stores %></h4><small><%= t('nav_stores') %></small></div></div>
+    <div class="col-6 col-md-3"><div class="card p-3 text-center"><h4><%= stats.businesses %></h4><small><%= t('nav_businesses') %></small></div></div>
+  </div>
+
+  <% if (isPrimary || currentUser.permissions.includes('listings')) { %>
+  <h5 class="mb-3"><%= lang === 'ar' ? 'بانتظار المراجعة' : 'Pending review' %></h5>
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3"><a href="/admin/listings/products?status=pending" class="card p-3 text-center text-decoration-none"><h4 class="text-warning"><%= stats.pendingProducts %></h4><small><%= t('nav_marketplace') %></small></a></div>
+    <div class="col-6 col-md-3"><a href="/admin/listings/professionals?status=pending" class="card p-3 text-center text-decoration-none"><h4 class="text-warning"><%= stats.pendingProfessionals %></h4><small><%= t('nav_professionals') %></small></a></div>
+    <div class="col-6 col-md-3"><a href="/admin/listings/stores?status=pending" class="card p-3 text-center text-decoration-none"><h4 class="text-warning"><%= stats.pendingStores %></h4><small><%= t('nav_stores') %></small></a></div>
+    <div class="col-6 col-md-3"><a href="/admin/listings/businesses?status=pending" class="card p-3 text-center text-decoration-none"><h4 class="text-warning"><%= stats.pendingBusinesses %></h4><small><%= t('nav_businesses') %></small></a></div>
+  </div>
+  <% } %>
+
+  <div class="d-flex gap-2 flex-wrap">
+    <% if (isPrimary || currentUser.permissions.includes('listings')) { %>
+      <a href="/admin/listings/products" class="btn btn-outline-primary btn-sm">Products</a>
+      <a href="/admin/listings/professionals" class="btn btn-outline-primary btn-sm">Professionals</a>
+      <a href="/admin/listings/stores" class="btn btn-outline-primary btn-sm">Stores</a>
+      <a href="/admin/listings/businesses" class="btn btn-outline-primary btn-sm">Businesses</a>
+    <% } %>
+    <% if (isPrimary || currentUser.permissions.includes('users')) { %><a href="/admin/users" class="btn btn-outline-secondary btn-sm"><%= t('users') %></a><% } %>
+    <% if (isPrimary || currentUser.permissions.includes('categories')) { %><a href="/admin/categories" class="btn btn-outline-secondary btn-sm"><%= t('categories') %></a><% } %>
+    <% if (isPrimary) { %><a href="/admin/admins" class="btn btn-warning btn-sm">Admin Management</a><% } %>
+  </div>
+</div>

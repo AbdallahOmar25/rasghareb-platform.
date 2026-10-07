@@ -1,0 +1,27 @@
+<div class="container my-4">
+  <h3 class="mb-3"><%= t('categories') %></h3>
+  <form action="/admin/categories/new" method="POST" class="row g-2 mb-4">
+    <div class="col-md-3"><input type="text" name="name_ar" class="form-control" placeholder="الاسم (عربي)" required></div>
+    <div class="col-md-3"><input type="text" name="name_en" class="form-control" placeholder="Name (English)"></div>
+    <div class="col-md-3">
+      <select name="type" class="form-select">
+        <option value="product"><%= lang === 'ar' ? 'تصنيف منتجات' : 'Product category' %></option>
+        <option value="business"><%= lang === 'ar' ? 'تصنيف أعمال' : 'Business category' %></option>
+      </select>
+    </div>
+    <div class="col-md-3"><button class="btn btn-primary w-100"><%= lang === 'ar' ? 'إضافة' : 'Add' %></button></div>
+  </form>
+  <table class="table table-striped">
+    <thead><tr><th><%= lang === 'ar' ? 'عربي' : 'Arabic' %></th><th>English</th><th><%= lang === 'ar' ? 'النوع' : 'Type' %></th><th></th></tr></thead>
+    <tbody>
+      <% categories.forEach(c => { %>
+        <tr>
+          <td><%= c.name_ar %></td>
+          <td><%= c.name_en %></td>
+          <td><%= c.type %></td>
+          <td><form action="/admin/categories/<%= c.id %>/delete" method="POST"><button class="btn btn-sm btn-outline-danger"><%= t('delete') %></button></form></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

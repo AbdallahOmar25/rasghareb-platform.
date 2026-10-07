@@ -1,0 +1,79 @@
+<div class="container my-5" style="max-width: 960px;">
+  <div class="text-center mb-5" data-reveal>
+    <div class="eyebrow dark eyebrow-pill mb-3">
+      <span class="dot"></span>
+      <span><%= lang === 'ar' ? 'تواصل معنا' : 'Contact Us' %></span>
+    </div>
+    <h1 style="font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em;">
+      <%= lang === 'ar' ? 'نحن هنا لمساعدتك. تواصل بالطريقة التي تفضلها.' : "We're here to help. Reach out your way." %>
+    </h1>
+    <p class="text-muted mt-2 mx-auto" style="max-width: 580px; font-size: 1.12rem;">
+      <%= lang === 'ar' 
+        ? 'سواء كان لديك استفسار، رغبة في إضافة نشاطك التجاري، أو طلب خدمة خاصة، فريقنا بانتظارك.' 
+        : 'Whether you have an inquiry, want to list your business, or need a custom service, we are ready.' %>
+    </p>
+  </div>
+
+  <!-- Direct Request Trigger Banner (Lumora Ink Card) -->
+  <div class="ink-card p-4 p-md-5 mb-5" data-reveal>
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <span class="tag-chip light mb-3"><%= lang === 'ar' ? 'طلب سريع' : 'Fast Track' %></span>
+        <h2 style="font-size: clamp(1.6rem, 2.8vw, 2.2rem); font-weight: 700; color: #fff;">
+          <%= lang === 'ar' ? 'أرسل تفاصيل مشروعك أو خدمتك مباشرة' : 'Send your project or service request directly' %>
+        </h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1.05rem; margin-bottom: 0;">
+          <%= lang === 'ar' ? 'املأ نموذجاً بسيطاً وسنتواصل معك خلال يوم عمل واحد.' : 'Fill out a brief form and we will get back to you within one business day.' %>
+        </p>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <button type="button" class="pill-btn light has-arrow" data-open-modal style="font-size: 1rem; padding: 0.45rem 0.45rem 0.45rem 1.6rem;">
+          <span><%= lang === 'ar' ? 'فتح نموذج الطلب' : 'Open Request Form' %></span>
+          <span class="pill-arrow-badge up-right" style="width: 2.4rem; height: 2.4rem;">
+            <i class="bi bi-arrow-up-left"></i>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Methods Grid -->
+  <div class="row g-3">
+    <div class="col-md-6" data-reveal>
+      <a class="contact-method-card whatsapp" href="<%= siteContact.whatsapp %>" target="_blank" rel="noopener">
+        <i class="bi bi-whatsapp"></i>
+        <div>
+          <strong>WhatsApp</strong>
+          <small><%= lang === 'ar' ? 'محادثة فورية مباشرة' : 'Direct instant chat' %></small>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6" data-reveal>
+      <a class="contact-method-card mail" href="mailto:<%= siteContact.email %>">
+        <i class="bi bi-envelope"></i>
+        <div>
+          <strong>Email</strong>
+          <small><%= siteContact.email %></small>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6" data-reveal>
+      <a class="contact-method-card facebook" href="<%= siteContact.facebook %>" target="_blank" rel="noopener">
+        <i class="bi bi-facebook"></i>
+        <div>
+          <strong>Facebook</strong>
+          <small><%= lang === 'ar' ? 'صفحتنا الرسمية على فيسبوك' : 'Official Facebook page' %></small>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6" data-reveal>
+      <a class="contact-method-card instagram" href="<%= siteContact.instagram %>" target="_blank" rel="noopener">
+        <i class="bi bi-instagram"></i>
+        <div>
+          <strong>Instagram</strong>
+          <small><%= lang === 'ar' ? 'تابع جديد المنصة وأعمال المدينة' : 'Follow platform updates & city highlights' %></small>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

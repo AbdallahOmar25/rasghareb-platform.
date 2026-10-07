@@ -1,0 +1,88 @@
+<div class="container my-5" style="max-width: 1040px;">
+  <!-- Studio Header -->
+  <div class="mb-5 text-center" data-reveal>
+    <div class="eyebrow dark eyebrow-pill mb-3">
+      <span class="dot"></span>
+      <span><%= lang === 'ar' ? 'الاستوديو والمنصة' : 'The Studio & Platform' %></span>
+    </div>
+    <h1 style="font-size: clamp(2.4rem, 4.5vw, 3.8rem); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em;">
+      <%= lang === 'ar' ? 'أفكار ملهمة، صُنعت بدقة وهدوء.' : 'Bold ideas, shipped with quiet precision.' %>
+    </h1>
+    <p class="mx-auto mt-3 text-muted" style="max-width: 680px; font-size: 1.2rem; line-height: 1.85;">
+      <%= lang === 'ar' 
+        ? 'منصة رأس غارب هي الوجهة الرقمية الموحدة التي تجمع بين التصميم المتقن والحلول الهندسية لربط المتاجر والمهنيين والمجتمع المحلي في البحر الأحمر.' 
+        : 'Ras Ghareb is an independent local hub blending refined design and engineering to connect shops, professionals, and the community on the Red Sea.' %>
+    </p>
+  </div>
+
+  <!-- Studio Cards (Ink Card Aesthetics) -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4" data-reveal>
+      <div class="ink-card p-4 h-100 d-flex flex-direction-column justify-content-between">
+        <div>
+          <span class="tag-chip light mb-3"><%= lang === 'ar' ? 'مجتمع متصل' : 'Community' %></span>
+          <h3 class="mt-2 mb-3" style="font-size: 1.5rem; font-weight: 700;"><%= lang === 'ar' ? 'شبكة أعمال متكاملة' : 'Connected Network' %></h3>
+          <p style="font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.7);">
+            <%= lang === 'ar' 
+              ? 'نصل بين المشتري والبائع، والباحث عن المهارة وصاحب الحرفة، في بيئة رقمية نظيفة وعالية الكفاءة.' 
+              : 'Connecting buyers, sellers, and skilled professionals in a clean, highly efficient digital environment.' %>
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-top border-secondary">
+          <small class="text-white-50">28°21′N · Red Sea</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4" data-reveal>
+      <div class="card p-4 h-100 shadow-sm border" style="border-radius: 2rem; background: var(--surface);">
+        <div>
+          <span class="tag-chip mb-3"><%= lang === 'ar' ? 'دقة وحرفية' : 'Craft & Precision' %></span>
+          <h3 class="mt-2 mb-3" style="font-size: 1.5rem; font-weight: 700; color: #0a0a0a;"><%= lang === 'ar' ? 'تصميم هندسي متين' : 'Engineered to Scale' %></h3>
+          <p class="text-muted" style="font-size: 0.95rem; line-height: 1.7;">
+            <%= lang === 'ar' 
+              ? 'واجهات سريعة فائقة الوضوح، خالية من التشتيت ومصممة لتقديم تجربة تصفح هادئة وممتعة.' 
+              : 'Ultra-fast, razor-sharp interfaces built to provide a calm, frictionless browsing experience.' %>
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-top">
+          <small class="text-muted">High Definition · Zero Clutter</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4" data-reveal>
+      <div class="ink-card p-4 h-100 d-flex flex-direction-column justify-content-between">
+        <div>
+          <span class="tag-chip light mb-3"><%= lang === 'ar' ? 'رؤية مستقبلية' : 'Vision' %></span>
+          <h3 class="mt-2 mb-3" style="font-size: 1.5rem; font-weight: 700;"><%= lang === 'ar' ? 'تمكين الاقتصاد المحلي' : 'Empowering Local Growth' %></h3>
+          <p style="font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.7);">
+            <%= lang === 'ar' 
+              ? 'مساعدة رواد الأعمال والمحترفين في رأس غارب للوصول إلى جمهور أوسع وتنمية أعمالهم بثقة.' 
+              : 'Helping entrepreneurs and professionals in Ras Ghareb reach a broader audience and scale with confidence.' %>
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-top border-secondary">
+          <small class="text-white-50">Growth · Trust · Impact</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Studio CTA Banner -->
+  <div class="p-5 text-center rounded-4 shadow-sm" style="background: linear-gradient(135deg, #f8f7f4 0%, #ebe8e2 100%); border: 1px solid var(--lumora-line);" data-reveal>
+    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem;"><%= lang === 'ar' ? 'هل لديك فكرة أو عمل تود إطلاقه معنا؟' : 'Have a project or business in mind?' %></h2>
+    <p class="text-muted mb-4 mx-auto" style="max-width: 540px; font-size: 1.1rem;">
+      <%= lang === 'ar' ? 'فريقنا مستعد لمساعدتك في إبراز نشاطك وتقديم أفضل تجربة لعملائك.' : 'Our team is ready to help you showcase your business and deliver the best experience.' %>
+    </p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <button type="button" class="pill-btn dark has-arrow" data-open-modal>
+        <span><%= lang === 'ar' ? 'ابدأ مشروعك معنا' : 'Start a project' %></span>
+        <span class="pill-arrow-badge up-right"><i class="bi bi-arrow-up-left"></i></span>
+      </button>
+      <a href="/contact" class="pill-btn outline no-arrow">
+        <span><%= lang === 'ar' ? 'طرق التواصل المباشر' : 'Contact channels' %></span>
+      </a>
+    </div>
+  </div>
+</div>

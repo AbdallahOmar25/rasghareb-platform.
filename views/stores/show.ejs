@@ -1,0 +1,38 @@
+<div class="store-cover" style="background-image:url('<%= store.cover || '/img/placeholder.svg' %>')"></div>
+<div class="container my-4">
+  <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+    <img src="<%= store.logo || '/img/store-placeholder.svg' %>" class="avatar-img" onerror="this.src='/img/store-placeholder.svg'">
+    <div>
+      <h3 class="mb-0"><%= store.name %></h3>
+      <span class="badge bg-<%= store.status === 'approved' ? 'success' : (store.status === 'rejected' ? 'danger' : 'secondary') %>"><%= t('status_' + store.status) %></span>
+    </div>
+    <div class="ms-auto d-flex gap-2">
+      <% if (store.whatsapp) { %>
+        <a class="btn btn-success btn-sm" target="_blank" href="https://wa.me/<%= store.whatsapp.replace(/[^0-9]/g,'') %>"><i class="bi bi-whatsapp"></i> <%= t('contact_whatsapp') %></a>
+      <% } %>
+      <% if (currentUser && (currentUser.id === store.ownerId || ['primary_admin', 'secondary_admin', 'admin'].includes(currentUser.role))) { %>
+        <a href="/stores/<%= store.id %>/dashboard" class="btn btn-sm btn-outline-secondary"><%= t('store_dashboard') %></a>
+      <% } %>
+    </div>
+  </div>
+  <p><%= store.description %></p>
+
+  <% const storeSocialLinks = (store.socialLinks || '').split(/[\n,]+/).map(s => s.trim()).filter(Boolean); %>
+  <% if (storeSocialLinks.length) { %>
+    <div class="mt-3 d-flex flex-wrap gap-2">
+      <% storeSocialLinks.forEach(link => { %>
+        <% const href = /^https?:\/\//i.test(link) ? link : 'https://' + link; %>
+        <% const label = /facebook/i.test(link) ? 'Facebook' : /instagram/i.test(link) ? 'Instagram' : /wa|whatsapp/i.test(link) ? 'WhatsApp' : (lang === 'ar' ? 'رابط' : 'Link'); %>
+        <a class="btn btn-outline-dark btn-sm" href="<%= href %>" target="_blank" rel="noopener"><i class="bi bi-link-45deg"></i> <%= label %></a>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <h5 class="mt-4 mb-3"><%= t('nav_marketplace') %></h5>
+  <div class="row g-3">
+    <% if (!products.length) { %><p class="text-muted"><%= t('no_results') %></p><% } %>
+    <% products.forEach(p => { %><%- include('../partials/card-product', { p }) %><% }) %>
+  </div>
+
+  <%- include('../partials/reviews', { reviews, avgRating, targetType: 'store', targetId: store.id }) %>
+</div>

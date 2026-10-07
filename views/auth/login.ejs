@@ -1,0 +1,21 @@
+<div class="container my-5" style="max-width:450px">
+  <div class="card p-4 shadow-sm">
+    <h4 class="mb-3 text-center"><%= t('welcome_back') %></h4>
+    <% if (error) { %><div class="alert alert-danger py-2"><%= error %></div><% } %>
+    <form method="POST" action="/auth/login">
+      <div class="mb-3">
+        <label class="form-label"><%= t('email') %></label>
+        <input type="email" name="email" class="form-control" value="<%= email %>" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><%= t('password') %></label>
+        <input type="password" name="password" class="form-control" required>
+      </div>
+      <button class="btn btn-primary w-100"><%= t('nav_login') %></button>
+    </form>
+    <p class="text-center mt-3 small">
+      <%= lang === 'ar' ? 'ليس لديك حساب؟' : "Don't have an account?" %>
+      <a href="/auth/register"><%= t('nav_register') %></a>
+    </p>
+  </div>
+</div>

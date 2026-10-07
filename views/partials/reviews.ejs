@@ -1,0 +1,46 @@
+<div class="reviews-section mt-4">
+  <h5 class="mb-3">
+    <i class="bi bi-star-fill text-warning"></i> <%= t('reviews') %>
+    <% if (typeof avgRating !== 'undefined' && avgRating) { %>
+      <span class="badge bg-warning text-dark"><%= avgRating %> / 5</span>
+    <% } %>
+    <span class="text-muted">(<%= reviews.length %>)</span>
+  </h5>
+
+  <% if (currentUser) { %>
+    <form action="/reviews/<%= targetType %>/<%= targetId %>" method="POST" class="card p-3 mb-3">
+      <div class="row g-2 align-items-end">
+        <div class="col-auto">
+          <label class="form-label small"><%= t('rating') %></label>
+          <select name="rating" class="form-select form-select-sm">
+            <option value="5">5 ⭐⭐⭐⭐⭐</option>
+            <option value="4">4 ⭐⭐⭐⭐</option>
+            <option value="3">3 ⭐⭐⭐</option>
+            <option value="2">2 ⭐⭐</option>
+            <option value="1">1 ⭐</option>
+          </select>
+        </div>
+        <div class="col">
+          <label class="form-label small"><%= t('comment') %></label>
+          <input type="text" name="comment" class="form-control form-control-sm" required>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-sm btn-primary"><%= t('submit') %></button>
+        </div>
+      </div>
+    </form>
+  <% } %>
+
+  <% if (!reviews.length) { %>
+    <p class="text-muted small"><%= t('no_results') %></p>
+  <% } %>
+  <% reviews.forEach(r => { %>
+    <div class="border-bottom py-2">
+      <strong><%= r.userName %></strong>
+      <span class="text-warning">
+        <% for (let i = 0; i < r.rating; i++) { %>★<% } %>
+      </span>
+      <p class="mb-0 small text-muted"><%= r.comment %></p>
+    </div>
+  <% }) %>
+</div>

@@ -1,0 +1,56 @@
+<div id="request-modal" class="lumora-modal" role="dialog" aria-modal="true" aria-label="<%= lang === 'ar' ? 'طلب مشروع أو تواصل' : 'Start a project' %>">
+  <div class="modal-panel" id="modal-panel">
+    <button class="modal-close-btn" id="modal-close-btn" type="button" aria-label="<%= lang === 'ar' ? 'إغلاق' : 'Close' %>">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <!-- Form state -->
+    <div id="modal-form-wrap">
+      <div class="modal-header-block">
+        <div class="modal-eyebrow">
+          <span class="dot"></span>
+          <span><%= lang === 'ar' ? 'طلب مشروع أو خدمة' : 'Start a project' %></span>
+        </div>
+        <h2 class="modal-title"><%= lang === 'ar' ? 'أخبرنا بما تود بناؤه أو إنجازه.' : "Tell us what you're building." %></h2>
+      </div>
+
+      <form class="modal-form" id="request-form">
+        <div class="field-group">
+          <label class="field-caption" for="req-name"><%= lang === 'ar' ? 'الاسم' : 'Name' %></label>
+          <input class="field-input" id="req-name" type="text" name="name" required placeholder="<%= lang === 'ar' ? 'اسمك الكريم' : 'Your name' %>" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-caption" for="req-email"><%= lang === 'ar' ? 'البريد الإلكتروني أو الهاتف' : 'Email or Phone' %></label>
+          <input class="field-input" id="req-email" type="text" name="email" required placeholder="<%= lang === 'ar' ? 'name@domain.com أو رقم هاتفك' : 'you@company.com or phone' %>" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-caption" for="req-project"><%= lang === 'ar' ? 'تفاصيل الطلب أو المشروع' : 'Project Details' %></label>
+          <textarea class="field-input" id="req-project" name="project" rows="4" required placeholder="<%= lang === 'ar' ? 'اكتب نبذة عن طلبك، الجدول الزمني أو الخدمة المطلوبة...' : 'A few words about your project, timeline, and budget.' %>"></textarea>
+        </div>
+
+        <div class="modal-footer-row">
+          <span class="modal-reply-note"><%= lang === 'ar' ? 'نرد خلال يوم عمل واحد.' : 'We reply within one business day.' %></span>
+          <button class="pill-btn dark has-arrow" type="submit" id="modal-submit-btn">
+            <span id="modal-btn-label"><%= lang === 'ar' ? 'إرسال الطلب' : 'Send request' %></span>
+            <span class="pill-arrow-badge up-right">
+              <i class="bi bi-arrow-up-left"></i>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success state -->
+    <div class="modal-success-state" id="modal-success-wrap">
+      <div class="success-badge">
+        <svg viewBox="0 0 48 48" fill="currentColor" width="28" height="28"><path d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"/></svg>
+      </div>
+      <h2 class="success-title"><%= lang === 'ar' ? 'تم استلام طلبك بنجاح' : 'Request received' %></h2>
+      <p class="success-desc"><%= lang === 'ar' ? 'شكراً لتواصلك معنا — سنتواصل معك خلال يوم عمل واحد لمتابعة طلبك.' : "Thanks for reaching out — we'll get back to you within one business day." %></p>
+      <button class="pill-btn dark no-arrow" id="modal-success-close-btn" type="button"><%= lang === 'ar' ? 'إغلاق' : 'Close' %></button>
+    </div>
+  </div>
+</div>
+

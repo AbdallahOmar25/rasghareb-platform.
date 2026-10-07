@@ -1,0 +1,46 @@
+<div class="container my-4">
+  <h3 class="mb-4">Admin Management</h3>
+  <% if (typeof error !== 'undefined') { %><div class="alert alert-danger">Unable to complete the request.</div><% } %>
+
+  <div class="card p-4 mb-4">
+    <h5>Add Secondary Admin</h5>
+    <form action="/admin/admins/new" method="POST">
+      <div class="row g-2">
+        <div class="col-md-3"><input class="form-control" name="name" placeholder="Name" required></div>
+        <div class="col-md-3"><input class="form-control" type="email" name="email" placeholder="Email" required></div>
+        <div class="col-md-3"><input class="form-control" type="password" name="password" placeholder="Password" minlength="6" required></div>
+        <div class="col-md-3 d-flex align-items-center gap-2"><button class="btn btn-primary">Create</button></div>
+      </div>
+      <div class="mt-3 d-flex flex-wrap gap-3">
+        <% permissions.forEach(p => { %><label><input type="checkbox" name="permissions" value="<%= p %>"> <%= p %></label><% }) %>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Permissions</th><th>Actions</th></tr></thead>
+      <tbody>
+      <% admins.forEach(a => { %>
+        <tr>
+          <td><%= a.name %></td><td><%= a.email %></td><td><%= a.role %></td><td><%= a.status %></td>
+          <td><%= Array.isArray(a.permissions) ? a.permissions.join(', ') : '' %></td>
+          <td>
+            <% if (a.role === 'secondary_admin') { %>
+              <form action="/admin/admins/<%= a.id %>/update" method="POST" class="mb-2">
+                <input class="form-control form-control-sm d-inline-block mb-2" style="max-width:180px" name="name" value="<%= a.name %>"><input class="form-control form-control-sm d-inline-block mb-2" style="max-width:220px" type="email" name="email" value="<%= a.email %>">
+                <% permissions.forEach(p => { %><label class="me-2"><input type="checkbox" name="permissions" value="<%= p %>" <%= (a.permissions || []).includes(p) ? 'checked' : '' %>> <%= p %></label><% }) %>
+                <select name="status" class="form-select form-select-sm d-inline-block" style="width:auto"><option value="active" <%= a.status === 'active' ? 'selected' : '' %>>Active</option><option value="inactive" <%= a.status === 'inactive' ? 'selected' : '' %>>Inactive</option></select>
+                <button class="btn btn-sm btn-outline-primary">Save</button>
+              </form>
+              <form action="/admin/admins/<%= a.id %>/delete" method="POST" onsubmit="return confirm('Delete this secondary admin?')"><button class="btn btn-sm btn-outline-danger">Delete</button></form>
+            <% } else { %>
+              <span class="badge bg-warning text-dark">Protected Primary Admin</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

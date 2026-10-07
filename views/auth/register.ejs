@@ -1,0 +1,44 @@
+<div class="container my-5" style="max-width:500px">
+  <div class="card p-4 shadow-sm">
+    <h4 class="mb-3 text-center"><%= t('create_account') %></h4>
+    <% if (error) { %><div class="alert alert-danger py-2"><%= error %></div><% } %>
+    <form method="POST" action="/auth/register">
+      <div class="mb-3">
+        <label class="form-label"><%= t('name') %></label>
+        <input type="text" name="name" class="form-control" value="<%= form.name || '' %>" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><%= t('email') %></label>
+        <input type="email" name="email" class="form-control" value="<%= form.email || '' %>" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><%= t('password') %></label>
+        <input type="password" name="password" class="form-control" required minlength="6">
+      </div>
+      <div class="row">
+        <div class="col-6 mb-3">
+          <label class="form-label"><%= t('phone') %></label>
+          <input type="text" name="phone" class="form-control" value="<%= form.phone || '' %>">
+        </div>
+        <div class="col-6 mb-3">
+          <label class="form-label"><%= t('whatsapp') %></label>
+          <input type="text" name="whatsapp" class="form-control" value="<%= form.whatsapp || '' %>">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><%= t('account_type') %></label>
+        <select name="role" class="form-select">
+          <option value="customer"><%= t('role_customer') %></option>
+          <option value="seller"><%= t('role_seller') %></option>
+          <option value="professional"><%= t('role_professional') %></option>
+          <option value="business_owner"><%= t('role_business') %></option>
+        </select>
+      </div>
+      <button class="btn btn-primary w-100"><%= t('create_account') %></button>
+    </form>
+    <p class="text-center mt-3 small">
+      <%= lang === 'ar' ? 'لديك حساب بالفعل؟' : 'Already have an account?' %>
+      <a href="/auth/login"><%= t('nav_login') %></a>
+    </p>
+  </div>
+</div>

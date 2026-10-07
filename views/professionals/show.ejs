@@ -1,0 +1,50 @@
+<div class="container my-4">
+  <div class="row g-4">
+    <div class="col-md-4 text-center">
+      <img src="<%= professional.photo || '/img/avatar-placeholder.svg' %>" onerror="this.src='/img/avatar-placeholder.svg'" class="avatar-img-lg mb-3">
+      <div class="d-flex justify-content-center gap-2">
+        <% if (professional.whatsapp) { %>
+          <a class="btn btn-success btn-sm" target="_blank" href="https://wa.me/<%= professional.whatsapp.replace(/[^0-9]/g,'') %>"><i class="bi bi-whatsapp"></i> <%= t('contact_whatsapp') %></a>
+        <% } %>
+        <% if (professional.phone) { %>
+          <a class="btn btn-outline-secondary btn-sm" href="tel:<%= professional.phone %>"><i class="bi bi-telephone"></i> <%= t('contact_phone') %></a>
+        <% } %>
+      </div>
+      <% if (currentUser && (currentUser.id === professional.userId || ['primary_admin', 'secondary_admin', 'admin'].includes(currentUser.role))) { %>
+        <div class="mt-3 d-flex justify-content-center gap-2">
+          <a href="/professionals/<%= professional.id %>/edit" class="btn btn-sm btn-outline-secondary"><%= t('edit') %></a>
+          <form action="/professionals/<%= professional.id %>/delete" method="POST" onsubmit="return confirm('<%= t('delete') %>?')">
+            <button class="btn btn-sm btn-outline-danger"><%= t('delete') %></button>
+          </form>
+        </div>
+      <% } %>
+    </div>
+    <div class="col-md-8">
+      <h3><%= professional.name %></h3>
+      <h6 class="text-muted"><%= lang === 'ar' ? professional.profession_ar : (professional.profession_en || professional.profession_ar) %></h6>
+      <span class="badge bg-<%= professional.status === 'approved' ? 'success' : (professional.status === 'rejected' ? 'danger' : 'secondary') %> mb-2"><%= t('status_' + professional.status) %></span>
+      <p><%= professional.bio %></p>
+      <% const professionalSocialLinks = (professional.socialLinks || '').split(/[\n,]+/).map(s => s.trim()).filter(Boolean); %>
+      <% if (professionalSocialLinks.length) { %>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <% professionalSocialLinks.forEach(link => { %>
+            <% const href = /^https?:\/\//i.test(link) ? link : 'https://' + link; %>
+            <% const label = /facebook/i.test(link) ? 'Facebook' : /instagram/i.test(link) ? 'Instagram' : /wa|whatsapp/i.test(link) ? 'WhatsApp' : (lang === 'ar' ? 'رابط' : 'Link'); %>
+            <a class="btn btn-outline-dark btn-sm" href="<%= href %>" target="_blank" rel="noopener"><i class="bi bi-link-45deg"></i> <%= label %></a>
+          <% }) %>
+        </div>
+      <% } %>
+      <ul class="list-unstyled small mt-3">
+        <% if (professional.serviceArea) { %><li><i class="bi bi-geo-alt"></i> <strong><%= t('service_area') %>:</strong> <%= professional.serviceArea %></li><% } %>
+        <% if (professional.workingHours) { %><li><i class="bi bi-clock"></i> <strong><%= t('working_hours') %>:</strong> <%= professional.workingHours %></li><% } %>
+      </ul>
+      <% if (professional.services && professional.services.length) { %>
+        <h6 class="mt-3"><%= t('services_offered') %></h6>
+        <div class="d-flex flex-wrap gap-2">
+          <% professional.services.forEach(s => { %><span class="badge bg-light text-dark border"><%= s %></span><% }) %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  <%- include('../partials/reviews', { reviews, avgRating, targetType: 'professional', targetId: professional.id }) %>
+</div>

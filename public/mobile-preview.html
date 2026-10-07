@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محاكي هاتف رأس غارب - Mobile Phone Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #080c14;
+      --panel-bg: rgba(15, 23, 42, 0.75);
+      --border-glow: rgba(56, 189, 248, 0.25);
+      --accent: #38bdf8;
+      --accent-gold: #f59e0b;
+      --phone-w: 393px;
+      --phone-h: 844px;
+      --scale: 1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: radial-gradient(circle at 50% 20%, #0e172a 0%, #030712 100%);
+      color: #f1f5f9;
+      font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* Top Control Toolbar */
+    .top-toolbar {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      z-index: 100;
+      position: sticky;
+      top: 0;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-tool {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      padding: 0.5rem 0.9rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-tool:hover {
+      background: rgba(51, 65, 85, 0.9);
+      border-color: var(--accent);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-tool.active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+
+    .segmented-group {
+      display: flex;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .segmented-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 0.45rem 0.85rem;
+      border-radius: 9px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .segmented-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Main Stage */
+    .stage-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1rem;
+      position: relative;
+    }
+
+    /* Phone Chassis Wrapper */
+    .phone-scaler {
+      transform-origin: center center;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* iPhone Frame */
+    .iphone-device {
+      width: var(--phone-w);
+      height: var(--phone-h);
+      background: #000000;
+      border-radius: 54px;
+      box-shadow: 
+        0 0 0 10px #27272a, /* Titanium Outer Ring */
+        0 0 0 12px #3f3f46, /* Bezel highlight */
+        0 25px 60px -10px rgba(0, 0, 0, 0.85),
+        0 0 50px rgba(56, 189, 248, 0.15);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 4px solid #09090b;
+      transition: all 0.4s ease;
+    }
+
+    /* Android S24 Frame */
+    .android-device {
+      width: 400px;
+      height: 840px;
+      background: #000000;
+      border-radius: 36px;
+      box-shadow: 
+        0 0 0 8px #18181b,
+        0 0 0 10px #27272a,
+        0 25px 60px -10px rgba(0, 0, 0, 0.85),
+        0 0 45px rgba(245, 158, 11, 0.12);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 3px solid #09090b;
+      transition: all 0.4s ease;
+    }
+
+    /* Side hardware buttons */
+    .iphone-device::before {
+      content: '';
+      position: absolute;
+      left: -15px;
+      top: 130px;
+      width: 4px;
+      height: 52px;
+      background: #3f3f46;
+      border-radius: 3px 0 0 3px;
+      box-shadow: 0 75px 0 #3f3f46, 0 140px 0 #3f3f46;
+    }
+
+    .iphone-device::after {
+      content: '';
+      position: absolute;
+      right: -15px;
+      top: 180px;
+      width: 4px;
+      height: 80px;
+      background: #3f3f46;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* Status Bar */
+    .phone-status-bar {
+      height: 48px;
+      width: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      z-index: 50;
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      direction: ltr; /* English status bar convention */
+    }
+
+    /* Dynamic Island */
+    .dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 124px;
+      height: 32px;
+      background: #000000;
+      border-radius: 20px;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      box-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+      transition: width 0.3s ease;
+      pointer-events: none;
+    }
+
+    .camera-lens {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #0c4a6e 20%, #030712 80%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .sensor-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #0284c7;
+      opacity: 0.4;
+    }
+
+    /* Android Punch Hole */
+    .android-hole {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #0c4a6e 30%, #020617 90%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 60;
+      pointer-events: none;
+    }
+
+    /* Screen Viewport */
+    .screen-content {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #0a0f1d;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* The Live Iframe */
+    .phone-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #0a0f1d;
+      box-sizing: border-box;
+      display: block;
+    }
+
+    /* Bottom Home Indicator */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 136px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      z-index: 50;
+      pointer-events: auto;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .home-indicator:hover {
+      background: #38bdf8;
+    }
+
+    /* Android Nav Bar */
+    .android-navbar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 50;
+      direction: ltr;
+    }
+
+    .android-nav-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 8px 16px;
+    }
+
+    .android-nav-btn:hover {
+      color: #ffffff;
+    }
+
+    /* Home Screen Wallpaper View */
+    .homescreen-view {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, #1e293b 0%, #090d16 100%);
+      background-size: cover;
+      display: none;
+      flex-direction: column;
+      padding: 60px 24px 40px;
+      z-index: 40;
+      animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .home-clock-widget {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .home-time {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1;
+      letter-spacing: -1px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .home-date {
+      font-size: 1rem;
+      color: #cbd5e1;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px 16px;
+      justify-items: center;
+    }
+
+    .app-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      text-decoration: none;
+    }
+
+    .app-icon-item:active {
+      transform: scale(0.88);
+    }
+
+    .app-icon-box {
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+      position: relative;
+    }
+
+    .app-icon-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .app-icon-label {
+      font-size: 11px;
+      color: #ffffff;
+      font-weight: 600;
+      text-align: center;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+      max-width: 68px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pulse-highlight {
+      position: absolute;
+      inset: -4px;
+      border: 2px solid #38bdf8;
+      border-radius: 20px;
+      animation: pulseBorder 1.8s infinite;
+    }
+
+    @keyframes pulseBorder {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.08); }
+    }
+
+    .dock-area {
+      margin-top: auto;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 32px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Floating Quick Actions Bar */
+    .quick-actions-bar {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 0.6rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      z-index: 90;
+    }
+
+    .quick-btn {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0.4rem 0.75rem;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .quick-btn:hover {
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.15);
+    }
+
+    .quick-btn.active {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.2);
+    }
+
+    /* Rotating helper */
+    .landscape {
+      --phone-w: 844px;
+      --phone-h: 393px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Toolbar -->
+  <header class="top-toolbar">
+    <div class="brand-section">
+      <img src="/icons/icon-192.png" alt="رأس غارب" class="brand-icon">
+      <div>
+        <div class="brand-title">محاكي الهاتف الذكي (Mobile App Simulator)</div>
+        <div class="brand-subtitle">معاينة تجربة تطبيق منصة رأس غارب على شاشات الهواتف الحقيقية</div>
+      </div>
+    </div>
+
+    <div class="toolbar-actions">
+      <!-- Device Switcher -->
+      <div class="segmented-group">
+        <button class="segmented-btn active" id="btn-iphone" onclick="switchDevice('iphone')">
+          <span>🍏 iPhone 15 Pro</span>
+        </button>
+        <button class="segmented-btn" id="btn-android" onclick="switchDevice('android')">
+          <span>🤖 Samsung S24</span>
+        </button>
+      </div>
+
+      <!-- Mode Switcher -->
+      <div class="segmented-group">
+        <button class="segmented-btn active" id="btn-mode-app" onclick="switchMode('app')">
+          <span>📱 التطبيق المباشر</span>
+        </button>
+        <button class="segmented-btn" id="btn-mode-home" onclick="switchMode('home')">
+          <span>🏠 الشاشة الرئيسية</span>
+        </button>
+      </div>
+
+      <!-- Zoom Switcher -->
+      <select class="btn-tool" id="scale-select" onchange="changeScale(this.value)" style="outline:none;">
+        <option value="1">حجم 100%</option>
+        <option value="0.9" selected>حجم 90%</option>
+        <option value="0.8">حجم 80%</option>
+        <option value="0.75">حجم 75%</option>
+      </select>
+
+      <!-- Reload button -->
+      <button class="btn-tool" onclick="reloadFrame()" title="تحديث الصفحة">
+        <span>🔄 تحديث</span>
+      </button>
+
+      <!-- Open in new tab -->
+      <a href="/" target="_blank" class="btn-tool" title="فتح الموقع في تبويب خارجي">
+        <span>↗ فتح في تبويب</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Interactive Simulator Stage -->
+  <main class="stage-container">
+    <div class="phone-scaler" id="phone-scaler" style="transform: scale(0.9);">
+      
+      <!-- Phone Mockup Container -->
+      <div class="iphone-device" id="phone-device">
+        
+        <!-- Status Bar -->
+        <div class="phone-status-bar">
+          <span id="clock-display">9:41</span>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span>5G</span>
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor">
+              <path d="M0 8.5C0 8.22386 0.223858 8 0.5 8H2.5C2.77614 8 3 8.22386 3 8.5V10.5C3 10.7761 2.77614 11 2.5 11H0.5C0.223858 11 0 10.7761 0 10.5V8.5Z"/>
+              <path d="M4 6C4 5.72386 4.22386 5.5 4.5 5.5H6.5C6.77614 5.5 7 5.72386 7 6V10.5C7 10.7761 6.77614 11 6.5 11H4.5C4.22386 11 4 10.7761 4 10.5V6Z"/>
+              <path d="M8 3.5C8 3.22386 8.22386 3 8.5 3H10.5C10.7761 3 11 3.22386 11 3.5V10.5C11 10.7761 10.7761 11 10.5 11H8.5C8.22386 11 8 10.7761 8 10.5V3.5Z"/>
+              <path d="M12 0.5C12 0.223858 12.2239 0 12.5 0H14.5C14.7761 0 15 0.223858 15 0.5V10.5C15 10.7761 14.7761 11 14.5 11H12.5C12.2239 11 12 10.7761 12 10.5V0.5Z"/>
+            </svg>
+            <svg width="22" height="11" viewBox="0 0 22 11" fill="currentColor">
+              <rect x="0.5" y="0.5" width="18" height="10" rx="3" stroke="currentColor" fill="none"/>
+              <rect x="2" y="2" width="15" height="7" rx="1.5" fill="#22c55e"/>
+              <path d="M20 3.5V7.5" stroke="currentColor" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Dynamic Island / Notch -->
+        <div class="dynamic-island" id="dynamic-island">
+          <div class="camera-lens"></div>
+          <div class="sensor-dot"></div>
+        </div>
+
+        <!-- Android Center Hole (hidden by default) -->
+        <div class="android-hole" id="android-hole" style="display:none;"></div>
+
+        <!-- Screen Content Viewport -->
+        <div class="screen-content">
+          <!-- Loading overlay while iframe loads -->
+          <div id="iframe-loader" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#0a0f1d; z-index:15; color:#38bdf8; gap:12px;">
+            <div style="width:38px; height:38px; border:3px solid rgba(56,189,248,0.2); border-top-color:#38bdf8; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
+            <span style="font-size:13px; color:#94a3b8; font-weight:600;">جاري تحميل التطبيق...</span>
+          </div>
+
+          <!-- Live Website Iframe -->
+          <iframe src="/" id="app-iframe" class="phone-iframe" title="معاينة المنصة" onload="document.getElementById('iframe-loader').style.display='none'"></iframe>
+
+          <!-- Home Screen Mode Overlay -->
+          <div class="homescreen-view" id="homescreen-view">
+            <div class="home-clock-widget">
+              <div class="home-time" id="home-big-time">09:41</div>
+              <div class="home-date" id="home-big-date">الخميس، 8 أكتوبر</div>
+            </div>
+
+            <!-- App Grid on Phone -->
+            <div class="app-grid">
+              <!-- Official App -->
+              <div class="app-icon-item" onclick="launchApp('/')">
+                <div class="app-icon-box">
+                  <div class="pulse-highlight"></div>
+                  <img src="/icons/icon-192.png" alt="رأس غارب">
+                </div>
+                <span class="app-icon-label">رأس غارب</span>
+              </div>
+
+              <!-- Shortcut to Marketplace -->
+              <div class="app-icon-item" onclick="launchApp('/marketplace')">
+                <div class="app-icon-box" style="background:#0284c7; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">🛍️</span>
+                </div>
+                <span class="app-icon-label">السوق</span>
+              </div>
+
+              <!-- Shortcut to Jobs -->
+              <div class="app-icon-item" onclick="launchApp('/jobs')">
+                <div class="app-icon-box" style="background:#0d9488; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">💼</span>
+                </div>
+                <span class="app-icon-label">الوظائف</span>
+              </div>
+
+              <!-- Shortcut to Real Estate -->
+              <div class="app-icon-item" onclick="launchApp('/real-estate')">
+                <div class="app-icon-box" style="background:#d97706; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">🏠</span>
+                </div>
+                <span class="app-icon-label">العقارات</span>
+              </div>
+
+              <!-- Mock Photos App -->
+              <div class="app-icon-item">
+                <div class="app-icon-box" style="background:#ffffff; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">🌸</span>
+                </div>
+                <span class="app-icon-label">الصور</span>
+              </div>
+
+              <!-- Mock Camera App -->
+              <div class="app-icon-item">
+                <div class="app-icon-box" style="background:#475569; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">📷</span>
+                </div>
+                <span class="app-icon-label">الكاميرا</span>
+              </div>
+
+              <!-- Mock Maps App -->
+              <div class="app-icon-item">
+                <div class="app-icon-box" style="background:#22c55e; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">🗺️</span>
+                </div>
+                <span class="app-icon-label">الخرائط</span>
+              </div>
+
+              <!-- Mock Settings App -->
+              <div class="app-icon-item">
+                <div class="app-icon-box" style="background:#64748b; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">⚙️</span>
+                </div>
+                <span class="app-icon-label">الإعدادات</span>
+              </div>
+            </div>
+
+            <!-- Dock Area -->
+            <div class="dock-area">
+              <div class="app-icon-item" onclick="launchApp('/')">
+                <div class="app-icon-box">
+                  <img src="/icons/icon-192.png" alt="رأس غارب">
+                </div>
+              </div>
+              <div class="app-icon-item">
+                <div class="app-icon-box" style="background:#16a34a; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">📞</span>
+                </div>
+              </div>
+              <div class="app-icon-item">
+                <div class="app-icon-box" style="background:#2563eb; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">💬</span>
+                </div>
+              </div>
+              <div class="app-icon-item">
+                <div class="app-icon-box" style="background:#0284c7; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:28px;">🧭</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- iOS Home Indicator -->
+        <div class="home-indicator" id="home-indicator" onclick="switchMode('home')" title="الرجوع للشاشة الرئيسية"></div>
+
+        <!-- Android Nav Bar (hidden by default) -->
+        <div class="android-navbar" id="android-navbar" style="display:none;">
+          <button class="android-nav-btn" onclick="historyBack()">◀</button>
+          <button class="android-nav-btn" onclick="switchMode('home')">●</button>
+          <button class="android-nav-btn" onclick="reloadFrame()">■</button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Quick Pages Navigation -->
+  <div class="quick-actions-bar">
+    <button class="quick-btn active" onclick="navigateFrame('/')">
+      <span>🏠 الرئيسية</span>
+    </button>
+    <button class="quick-btn" onclick="navigateFrame('/marketplace')">
+      <span>🛍️ المتجر</span>
+    </button>
+    <button class="quick-btn" onclick="navigateFrame('/jobs')">
+      <span>💼 الوظائف</span>
+    </button>
+    <button class="quick-btn" onclick="navigateFrame('/real-estate')">
+      <span>🏘️ العقارات</span>
+    </button>
+    <button class="quick-btn" onclick="navigateFrame('/posts/new')">
+      <span>➕ أضف إعلان</span>
+    </button>
+  </div>
+
+  <script>
+    const iframe = document.getElementById('app-iframe');
+    const homeView = document.getElementById('homescreen-view');
+    const phoneDevice = document.getElementById('phone-device');
+    const dynamicIsland = document.getElementById('dynamic-island');
+    const androidHole = document.getElementById('android-hole');
+    const homeIndicator = document.getElementById('home-indicator');
+    const androidNavbar = document.getElementById('android-navbar');
+    const scaler = document.getElementById('phone-scaler');
+
+    // Clock update
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const timeStr = `${hours}:${minutes}`;
+      document.getElementById('clock-display').textContent = timeStr;
+      const bigTime = document.getElementById('home-big-time');
+      if (bigTime) bigTime.textContent = timeStr;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Switch between iPhone and Android
+    function switchDevice(type) {
+      document.getElementById('btn-iphone').classList.toggle('active', type === 'iphone');
+      document.getElementById('btn-android').classList.toggle('active', type === 'android');
+
+      if (type === 'iphone') {
+        phoneDevice.className = 'iphone-device';
+        dynamicIsland.style.display = 'flex';
+        androidHole.style.display = 'none';
+        homeIndicator.style.display = 'block';
+        androidNavbar.style.display = 'none';
+        iframe.style.paddingBottom = '24px';
+      } else {
+        phoneDevice.className = 'android-device';
+        dynamicIsland.style.display = 'none';
+        androidHole.style.display = 'block';
+        homeIndicator.style.display = 'none';
+        androidNavbar.style.display = 'flex';
+        iframe.style.paddingBottom = '40px';
+      }
+    }
+
+    // Switch Mode: App or Home Screen
+    function switchMode(mode) {
+      document.getElementById('btn-mode-app').classList.toggle('active', mode === 'app');
+      document.getElementById('btn-mode-home').classList.toggle('active', mode === 'home');
+
+      if (mode === 'home') {
+        homeView.style.display = 'flex';
+      } else {
+        homeView.style.display = 'none';
+      }
+    }
+
+    // Launch app from home screen
+    function launchApp(path) {
+      navigateFrame(path);
+      switchMode('app');
+    }
+
+    // Navigate iframe
+    function navigateFrame(path) {
+      iframe.src = path;
+      switchMode('app');
+      
+      // Update quick buttons
+      document.querySelectorAll('.quick-btn').forEach(btn => {
+        const text = btn.textContent;
+        if ((path === '/' && text.includes('الرئيسية')) ||
+            (path.includes('marketplace') && text.includes('المتجر')) ||
+            (path.includes('jobs') && text.includes('الوظائف')) ||
+            (path.includes('real-estate') && text.includes('العقارات')) ||
+            (path.includes('new') && text.includes('إعلان'))) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // Reload iframe
+    function reloadFrame() {
+      iframe.src = iframe.src;
+    }
+
+    // History back inside iframe
+    function historyBack() {
+      try {
+        iframe.contentWindow.history.back();
+      } catch (e) {
+        navigateFrame('/');
+      }
+    }
+
+    // Change scale
+    function changeScale(val) {
+      scaler.style.transform = `scale(${val})`;
+    }
+  </script>
+</body>
+</html>
+

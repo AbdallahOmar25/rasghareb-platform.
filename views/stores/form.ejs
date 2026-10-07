@@ -1,0 +1,38 @@
+<div class="container my-4" style="max-width:650px">
+  <h3 class="mb-3"><%= t('add_store') %></h3>
+  <form method="POST" enctype="multipart/form-data" action="/stores/new">
+    <div class="mb-3">
+      <label class="form-label"><%= lang === 'ar' ? 'اسم المتجر' : 'Store name' %></label>
+      <input type="text" name="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= t('description') %></label>
+      <textarea name="description" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('phone') %></label>
+        <input type="text" name="phone" class="form-control" required>
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('whatsapp') %></label>
+        <input type="text" name="whatsapp" class="form-control" placeholder="201xxxxxxxxx">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= lang === 'ar' ? 'روابط التواصل الاجتماعي (اختياري)' : 'Social media links (optional)' %></label>
+      <textarea name="socialLinks" class="form-control" rows="2" placeholder="https://facebook.com/yourpage, https://instagram.com/yourpage, https://wa.me/966500000000"></textarea>
+    </div>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= lang === 'ar' ? 'الشعار (Logo)' : 'Logo' %></label>
+        <input type="file" name="logo" class="form-control" accept="image/*">
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= lang === 'ar' ? 'صورة الغلاف' : 'Cover image' %></label>
+        <input type="file" name="cover" class="form-control" accept="image/*">
+      </div>
+    </div>
+    <button class="btn btn-primary"><%= t('save') %></button>
+  </form>
+</div>

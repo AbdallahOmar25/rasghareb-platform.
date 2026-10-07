@@ -1,0 +1,25 @@
+<div class="container my-4">
+  <h3 class="mb-3"><%= t('users') %></h3>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead><tr><th><%= t('name') %></th><th><%= t('email') %></th><th><%= t('account_type') %></th><th><%= lang === 'ar' ? 'الحالة' : 'Status' %></th><th></th></tr></thead>
+      <tbody>
+        <% users.forEach(u => { %>
+          <tr>
+            <td><%= u.name %></td>
+            <td><%= u.email %></td>
+            <td><%= u.role %></td>
+            <td><span class="badge bg-<%= u.status === 'banned' ? 'danger' : 'success' %>"><%= u.status %></span></td>
+            <td>
+              <% if (u.status === 'banned') { %>
+                <form action="/admin/users/<%= u.id %>/unban" method="POST"><button class="btn btn-sm btn-success"><%= lang === 'ar' ? 'رفع الحظر' : 'Unban' %></button></form>
+              <% } else if (!['primary_admin', 'admin'].includes(u.role)) { %>
+                <form action="/admin/users/<%= u.id %>/ban" method="POST"><button class="btn btn-sm btn-outline-danger"><%= lang === 'ar' ? 'حظر' : 'Ban' %></button></form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

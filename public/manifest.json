@@ -1,0 +1,64 @@
+{
+  "name": "منصة رأس غارب - التطبيق الرسمي",
+  "short_name": "رأس غارب",
+  "description": "المنصة المحلية الأولى لمدينة رأس غارب - إعلانات مبوبة، سوق تجاري، وظائف، خدمات وعقارات",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0f1d",
+  "theme_color": "#0a0f1d",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["shopping", "business", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "السوق والمتجر",
+      "short_name": "السوق",
+      "url": "/marketplace",
+      "description": "تصفح معروضات وتجارة أهل رأس غارب",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "الوظائف والعمل",
+      "short_name": "وظائف",
+      "url": "/jobs",
+      "description": "أحدث فرص العمل والوظائف الشاغرة",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "أضف إعلان جديد",
+      "short_name": "إعلان جديد",
+      "url": "/posts/new",
+      "description": "انشر إعلانك مجاناً لأهل المدينة",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
+

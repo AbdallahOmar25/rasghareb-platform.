@@ -1,0 +1,56 @@
+<div class="container my-4" style="max-width:650px">
+  <h3 class="mb-3"><%= professional ? t('edit') : t('add_professional') %></h3>
+  <form method="POST" enctype="multipart/form-data" action="<%= professional ? '/professionals/' + professional.id + '/edit' : '/professionals/new' %>">
+    <div class="mb-3">
+      <label class="form-label"><%= t('name') %></label>
+      <input type="text" name="name" class="form-control" value="<%= professional ? professional.name : '' %>" required>
+    </div>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label class="form-label">المهنة (عربي)</label>
+        <input type="text" name="profession_ar" class="form-control" value="<%= professional ? professional.profession_ar : '' %>" placeholder="كهربائي، سباك..." required>
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label">Profession (English)</label>
+        <input type="text" name="profession_en" class="form-control" value="<%= professional ? professional.profession_en : '' %>">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= t('description') %></label>
+      <textarea name="bio" class="form-control" rows="3"><%= professional ? professional.bio : '' %></textarea>
+    </div>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('phone') %></label>
+        <input type="text" name="phone" class="form-control" value="<%= professional ? professional.phone : '' %>" required>
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('whatsapp') %></label>
+        <input type="text" name="whatsapp" class="form-control" value="<%= professional ? professional.whatsapp : '' %>" placeholder="201xxxxxxxxx">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('service_area') %></label>
+        <input type="text" name="serviceArea" class="form-control" value="<%= professional ? professional.serviceArea : '' %>">
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('working_hours') %></label>
+        <input type="text" name="workingHours" class="form-control" value="<%= professional ? professional.workingHours : '' %>" placeholder="9 ص - 9 م">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= lang === 'ar' ? 'روابط التواصل الاجتماعي (اختياري)' : 'Social media links (optional)' %></label>
+      <textarea name="socialLinks" class="form-control" rows="2" placeholder="https://facebook.com/yourpage, https://instagram.com/yourpage, https://wa.me/966500000000"><%= professional ? professional.socialLinks || '' : '' %></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= t('services_offered') %> (افصل بينها بفاصلة)</label>
+      <input type="text" name="services" class="form-control" value="<%= professional && professional.services ? professional.services.join(', ') : '' %>">
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= lang === 'ar' ? 'صورة شخصية' : 'Profile photo' %></label>
+      <input type="file" name="photo" class="form-control" accept="image/*">
+    </div>
+    <button class="btn btn-primary"><%= t('save') %></button>
+  </form>
+</div>

@@ -1,0 +1,29 @@
+<div class="container my-4">
+  <h3 class="mb-3"><%= t('listings') %>: <%= type %></h3>
+  <div class="btn-group mb-3">
+    <a href="/admin/listings/<%= type %>" class="btn btn-sm btn-outline-secondary <%= !filter ? 'active' : '' %>"><%= lang === 'ar' ? 'الكل' : 'All' %></a>
+    <a href="/admin/listings/<%= type %>?status=pending" class="btn btn-sm btn-outline-secondary <%= filter==='pending' ? 'active' : '' %>"><%= t('status_pending') %></a>
+    <a href="/admin/listings/<%= type %>?status=approved" class="btn btn-sm btn-outline-secondary <%= filter==='approved' ? 'active' : '' %>"><%= t('status_approved') %></a>
+    <a href="/admin/listings/<%= type %>?status=rejected" class="btn btn-sm btn-outline-secondary <%= filter==='rejected' ? 'active' : '' %>"><%= t('status_rejected') %></a>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead><tr><th><%= lang === 'ar' ? 'الاسم' : 'Name' %></th><th><%= lang === 'ar' ? 'الحالة' : 'Status' %></th><th></th></tr></thead>
+      <tbody>
+        <% items.forEach(item => { %>
+          <% const label = item.title_ar || item.name || '—'; %>
+          <tr>
+            <td><%= label %></td>
+            <td><span class="badge bg-<%= item.status === 'approved' ? 'success' : (item.status === 'rejected' ? 'danger' : 'secondary') %>"><%= t('status_' + item.status) %></span></td>
+            <td class="d-flex gap-1">
+              <form action="/admin/listings/<%= type %>/<%= item.id %>/approve" method="POST"><button class="btn btn-sm btn-success"><%= t('approve') %></button></form>
+              <form action="/admin/listings/<%= type %>/<%= item.id %>/reject" method="POST"><button class="btn btn-sm btn-warning"><%= t('reject') %></button></form>
+              <form action="/admin/listings/<%= type %>/<%= item.id %>/delete" method="POST" onsubmit="return confirm('<%= t('delete') %>?')"><button class="btn btn-sm btn-outline-danger"><%= t('delete') %></button></form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% if (!items.length) { %><p class="text-muted"><%= t('no_results') %></p><% } %>
+  </div>
+</div>

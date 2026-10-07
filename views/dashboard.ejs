@@ -1,0 +1,69 @@
+<div class="container dashboard-page my-5">
+  <header class="dashboard-heading mb-4">
+    <div><span class="section-kicker"><i class="bi bi-geo-alt-fill"></i> <%= lang === 'ar' ? 'مساحتك في رأس غارب' : 'YOUR SPACE IN RAS GHAREB' %></span><h1><%= t('nav_dashboard') %></h1><p><%= lang === 'ar' ? 'تابع منتجاتك وخدماتك وأعمالك المحلية من مكان واحد.' : 'Manage your products, services and local business in one place.' %></p></div>
+    <a class="dashboard-location" href="https://www.google.com/maps/search/?api=1&query=28.3597%2C33.0775" target="_blank" rel="noopener noreferrer"><span><i class="bi bi-map"></i></span><span><strong><%= lang === 'ar' ? 'رأس غارب' : 'Ras Ghareb' %></strong><small>28°21′35″N · 33°04′39″E</small></span><i class="bi bi-arrow-up-right"></i></a>
+  </header>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card p-3 h-100">
+        <h5 class="d-flex justify-content-between"><%= t('nav_marketplace') %> <a href="/marketplace/new" class="btn btn-sm btn-primary"><%= t('add_product') %></a></h5>
+        <% if (!myProducts.length) { %><p class="text-muted small"><%= t('no_results') %></p><% } %>
+        <ul class="list-group list-group-flush">
+          <% myProducts.forEach(p => { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="/marketplace/<%= p.id %>"><%= p.title_ar %></a>
+              <span>
+                <span class="badge bg-<%= p.status === 'approved' ? 'success' : (p.status === 'rejected' ? 'danger' : 'secondary') %>"><%= t('status_' + p.status) %></span>
+                <a href="/marketplace/<%= p.id %>/edit" class="btn btn-sm btn-outline-secondary"><%= t('edit') %></a>
+              </span>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card p-3 h-100">
+        <h5 class="d-flex justify-content-between"><%= t('nav_professionals') %>
+          <% if (!myProfessionalProfile) { %><a href="/professionals/new" class="btn btn-sm btn-primary"><%= t('add_professional') %></a><% } %>
+        </h5>
+        <% if (myProfessionalProfile) { %>
+          <p><%= myProfessionalProfile.name %> — <span class="badge bg-<%= myProfessionalProfile.status === 'approved' ? 'success' : (myProfessionalProfile.status === 'rejected' ? 'danger' : 'secondary') %>"><%= t('status_' + myProfessionalProfile.status) %></span></p>
+          <a href="/professionals/<%= myProfessionalProfile.id %>/edit" class="btn btn-sm btn-outline-secondary"><%= t('edit') %></a>
+        <% } else { %>
+          <p class="text-muted small"><%= t('no_results') %></p>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card p-3 h-100">
+        <h5 class="d-flex justify-content-between"><%= t('my_store') %>
+          <% if (!myStore) { %><a href="/stores/new" class="btn btn-sm btn-primary"><%= t('add_store') %></a><% } %>
+        </h5>
+        <% if (myStore) { %>
+          <p><%= myStore.name %> — <span class="badge bg-<%= myStore.status === 'approved' ? 'success' : (myStore.status === 'rejected' ? 'danger' : 'secondary') %>"><%= t('status_' + myStore.status) %></span></p>
+          <a href="/stores/<%= myStore.id %>/dashboard" class="btn btn-sm btn-outline-secondary"><%= t('store_dashboard') %></a>
+        <% } else { %>
+          <p class="text-muted small"><%= t('no_results') %></p>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card p-3 h-100">
+        <h5 class="d-flex justify-content-between"><%= t('nav_businesses') %> <a href="/businesses/new" class="btn btn-sm btn-primary"><%= t('add_business') %></a></h5>
+        <% if (!myBusinesses.length) { %><p class="text-muted small"><%= t('no_results') %></p><% } %>
+        <ul class="list-group list-group-flush">
+          <% myBusinesses.forEach(b => { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="/businesses/<%= b.id %>"><%= b.name %></a>
+              <span class="badge bg-<%= b.status === 'approved' ? 'success' : (b.status === 'rejected' ? 'danger' : 'secondary') %>"><%= t('status_' + b.status) %></span>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

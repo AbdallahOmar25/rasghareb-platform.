@@ -1,0 +1,49 @@
+<div class="container my-4" style="max-width:650px">
+  <h3 class="mb-3"><%= business ? t('edit') : t('add_business') %></h3>
+  <form method="POST" enctype="multipart/form-data" action="<%= business ? '/businesses/' + business.id + '/edit' : '/businesses/new' %>">
+    <div class="mb-3">
+      <label class="form-label"><%= lang === 'ar' ? 'اسم النشاط' : 'Business name' %></label>
+      <input type="text" name="name" class="form-control" value="<%= business ? business.name : '' %>" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= t('category') %></label>
+      <select name="categoryId" class="form-select">
+        <option value="">—</option>
+        <% categories.forEach(c => { %>
+          <option value="<%= c.id %>" <%= (business && business.categoryId === c.id) ? 'selected' : '' %>><%= lang === 'ar' ? c.name_ar : c.name_en %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= t('description') %></label>
+      <textarea name="description" class="form-control" rows="3"><%= business ? business.description : '' %></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= t('address') %></label>
+      <input type="text" name="address" class="form-control" value="<%= business ? business.address : '' %>">
+    </div>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('phone') %></label>
+        <input type="text" name="phone" class="form-control" value="<%= business ? business.phone : '' %>">
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('whatsapp') %></label>
+        <input type="text" name="whatsapp" class="form-control" value="<%= business ? business.whatsapp : '' %>" placeholder="201xxxxxxxxx">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= t('opening_hours') %></label>
+      <input type="text" name="openingHours" class="form-control" value="<%= business ? business.openingHours : '' %>" placeholder="9 ص - 12 م">
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= lang === 'ar' ? 'روابط التواصل الاجتماعي (اختياري)' : 'Social media links (optional)' %></label>
+      <input type="text" name="socialLinks" class="form-control" value="<%= business ? business.socialLinks : '' %>">
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= lang === 'ar' ? 'صور (حتى 6)' : 'Photos (up to 6)' %></label>
+      <input type="file" name="photos" class="form-control" accept="image/*" multiple>
+    </div>
+    <button class="btn btn-primary"><%= t('save') %></button>
+  </form>
+</div>

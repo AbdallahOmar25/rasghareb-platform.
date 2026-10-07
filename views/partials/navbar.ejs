@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg main-navbar">
+  <div class="container nav-shell">
+    <a class="navbar-brand" href="/" aria-label="<%= lang === 'ar' ? 'رأس غارب الرئيسية' : 'Ras Ghareb home' %>">
+      <span class="brand-mark"><i class="bi bi-geo-alt-fill"></i></span><span class="brand-copy"><strong><%= lang === 'ar' ? 'رأس غارب' : 'Ras Ghareb' %></strong><small><%= lang === 'ar' ? 'دليلك المحلي' : 'LOCAL GUIDE' %></small></span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="<%= lang === 'ar' ? 'فتح القائمة' : 'Toggle navigation' %>"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link <%= currentPath === '/' ? 'active' : '' %>" href="/"><%= lang === 'ar' ? 'الرئيسية' : 'Home' %></a></li>
+        <li class="nav-item"><a class="nav-link <%= currentPath.startsWith('/marketplace') ? 'active' : '' %>" href="/marketplace"><%= lang === 'ar' ? 'السوق' : 'Marketplace' %></a></li>
+        <li class="nav-item"><a class="nav-link <%= currentPath.startsWith('/professionals') ? 'active' : '' %>" href="/professionals"><%= lang === 'ar' ? 'المهنيون' : 'Professionals' %></a></li>
+        <li class="nav-item"><a class="nav-link <%= currentPath.startsWith('/stores') ? 'active' : '' %>" href="/stores"><%= lang === 'ar' ? 'المتاجر' : 'Stores' %></a></li>
+        <li class="nav-item"><a class="nav-link <%= currentPath.startsWith('/businesses') ? 'active' : '' %>" href="/businesses"><%= lang === 'ar' ? 'الأعمال المحلية' : 'Local businesses' %></a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="language-toggle" href="?lang=<%= lang === 'ar' ? 'en' : 'ar' %>" aria-label="<%= lang === 'ar' ? 'Switch to English' : 'التبديل إلى العربية' %>"><i class="bi bi-translate"></i><%= lang === 'ar' ? 'EN' : 'عربي' %></a>
+        <button type="button" class="pill-btn dark has-arrow d-none d-lg-inline-flex" data-open-modal style="padding: 0.35rem 0.35rem 0.35rem 1.15rem; font-size: 0.86rem;">
+          <span><%= lang === 'ar' ? 'طلب خدمة' : 'Start a project' %></span>
+          <span class="pill-arrow-badge up-right" style="width: 1.85rem; height: 1.85rem; font-size: 0.85rem;">
+            <i class="bi bi-arrow-up-left"></i>
+          </span>
+        </button>
+        <% if (currentUser) { %>
+          <% if (['primary_admin', 'secondary_admin', 'admin'].includes(currentUser.role)) { %><a class="btn btn-sm btn-outline-primary" href="/admin"><%= lang === 'ar' ? 'الإدارة' : 'Admin' %></a><% } %>
+          <a class="btn btn-sm btn-outline-primary" href="/dashboard"><i class="bi bi-grid-1x2"></i> <%= lang === 'ar' ? 'لوحتي' : 'Dashboard' %></a>
+          <form action="/auth/logout" method="POST" class="d-inline"><button class="btn btn-sm btn-primary" type="submit"><%= lang === 'ar' ? 'خروج' : 'Log out' %></button></form>
+        <% } else { %>
+          <a class="nav-login" href="/auth/login"><%= lang === 'ar' ? 'دخول' : 'Log in' %></a><a class="btn btn-sm btn-primary nav-join" href="/auth/register"><%= lang === 'ar' ? 'انضم إلينا' : 'Join us' %><i class="bi bi-arrow-up-left"></i></a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>

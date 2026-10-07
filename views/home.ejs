@@ -1,0 +1,147 @@
+<section class="city-intro" data-city-intro aria-label="<%= lang === 'ar' ? 'مقدمة رأس غارب' : 'Ras Ghareb introduction' %>">
+  <!-- Full-viewport 3D Cinematic Scenery Background -->
+  <div class="intro-backdrop" data-photo-gallery aria-label="<%= lang === 'ar' ? 'عرض تلقائي لصور رأس غارب' : 'Automatic Ras Ghareb photo slideshow' %>">
+    <figure class="intro-backdrop-slide is-active" data-photo-slide aria-hidden="false">
+      <img src="/img/ras-ghareb-view-2.jpg?v=1080hd" alt="<%= lang === 'ar' ? 'مباني رأس غارب والبحر الأحمر والجبال في الخلفية' : 'Ras Ghareb buildings with the Red Sea and mountains' %>" fetchpriority="high">
+    </figure>
+    <figure class="intro-backdrop-slide" data-photo-slide aria-hidden="true">
+      <img src="/img/ras-ghareb-view-3.jpg?v=1080hd" alt="<%= lang === 'ar' ? 'غروب الشمس على كورنيش وشاطئ رأس غارب والبحر الأحمر' : 'Sunset on Ras Ghareb corniche and Red Sea beach' %>" loading="lazy">
+    </figure>
+    <div class="intro-scenery-overlay" aria-hidden="true"></div>
+    <button type="button" class="intro-photo-arrow intro-photo-prev" data-photo-prev aria-label="<%= lang === 'ar' ? 'الصورة السابقة' : 'Previous photo' %>"><i class="bi <%= lang === 'ar' ? 'bi-chevron-right' : 'bi-chevron-left' %>"></i></button>
+    <button type="button" class="intro-photo-arrow intro-photo-next" data-photo-next aria-label="<%= lang === 'ar' ? 'الصورة التالية' : 'Next photo' %>"><i class="bi <%= lang === 'ar' ? 'bi-chevron-left' : 'bi-chevron-right' %>"></i></button>
+  </div>
+
+  <!-- Floating Foreground UI -->
+  <div class="intro-ui-container">
+    <header class="intro-topline">
+      <a class="intro-brand-pill" href="/" aria-label="<%= lang === 'ar' ? 'رأس غارب' : 'Ras Ghareb' %>">
+        <span class="brand-mark"><i class="bi bi-geo-alt-fill"></i></span>
+        <span>
+          <strong><%= lang === 'ar' ? 'رأس غارب' : 'RAS GHAREB' %></strong>
+          <small><%= lang === 'ar' ? 'البحر الأحمر · مصر' : 'RED SEA · EGYPT' %></small>
+        </span>
+      </a>
+      <span class="intro-coord-pill"><i class="bi bi-crosshair"></i> 28°21′35″N&nbsp; 33°04′39″E</span>
+    </header>
+
+    <!-- 3D Glass Layer Entry Dock (GetLayers Style) -->
+    <div class="intro-entry-wrapper">
+      <div class="intro-glass-dock" data-glass-dock>
+        <div class="glass-dock-reflection" aria-hidden="true"></div>
+        <div class="glass-dock-info">
+          <div class="dock-badge"><span class="live-dot"></span><%= lang === 'ar' ? 'مشاهد حية فائقة الدقة 2K · رأس غارب' : 'LIVE 2K ULTRA HD · RAS GHAREB' %></div>
+          <h1 class="dock-title"><%= lang === 'ar' ? 'رأس غارب' : 'Ras Ghareb' %></h1>
+          <p class="dock-tagline"><%= lang === 'ar' ? 'مدينة البحر والجبال، وكل ما تحتاجه فيها قريب منك.' : 'A city by the sea and mountains, with what you need close by.' %></p>
+        </div>
+        <div class="glass-dock-action">
+          <button class="intro-enter-btn" type="button" data-enter-platform>
+            <span><%= lang === 'ar' ? 'الدخول إلى المنصة' : 'Enter the platform' %></span>
+            <i class="bi bi-arrow-up-left" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Photo slideshow indicator -->
+      <div class="intro-photo-controls" aria-hidden="true">
+        <span class="intro-photo-progress is-running"><i data-photo-progress></i></span>
+        <span data-photo-count>1 <i>/</i> 2</span>
+      </div>
+    </div>
+
+    <footer class="intro-bottom-strip">
+      <span><%= lang === 'ar' ? 'دليلك المحلي إلى رأس غارب' : 'YOUR LOCAL GUIDE TO RAS GHAREB' %></span>
+      <span><%= lang === 'ar' ? 'بث حي للمشاهد الطبيعية · جودة فائقة 2K' : 'LIVE 2K ULTRA HD SCENERY STREAM' %></span>
+    </footer>
+  </div>
+</section>
+
+<section class="home-hero">
+  <div class="hero-grain" aria-hidden="true"></div>
+  <div class="container hero-shell">
+    <div class="hero-copy" data-reveal>
+      <span class="eyebrow"><span class="live-dot"></span><%= lang === 'ar' ? 'دليلك إلى قلب رأس غارب' : 'YOUR LOCAL GUIDE TO RAS GHAREB' %></span>
+      <h1><%= lang === 'ar' ? 'كل ما تبحث عنه،' : 'Everything you need,' %><br><em><%= lang === 'ar' ? 'أقرب إليك.' : 'closer to home.' %></em></h1>
+      <p class="hero-description"><%= lang === 'ar' ? 'اكتشف المتاجر والمنتجات والمهنيين والأعمال المحلية في مكان واحد.' : 'Discover local shops, products, professionals and businesses in one trusted place.' %></p>
+
+      <form action="/search" method="GET" class="hero-search">
+        <label class="visually-hidden" for="home-search"><%= t('search_placeholder') %></label>
+        <i class="bi bi-search" aria-hidden="true"></i>
+        <input id="home-search" type="search" name="q" placeholder="<%= lang === 'ar' ? 'عن ماذا تبحث اليوم؟' : 'What are you looking for today?' %>">
+        <select name="type" aria-label="<%= lang === 'ar' ? 'نوع البحث' : 'Search type' %>">
+          <option value="product"><%= lang === 'ar' ? 'السوق' : 'Marketplace' %></option>
+          <option value="professional"><%= lang === 'ar' ? 'مهنيون' : 'Professionals' %></option>
+          <option value="store"><%= lang === 'ar' ? 'متاجر' : 'Stores' %></option>
+          <option value="business"><%= lang === 'ar' ? 'أعمال محلية' : 'Local businesses' %></option>
+        </select>
+        <button type="submit" class="btn btn-primary"><%= lang === 'ar' ? 'ابحث الآن' : 'Search' %><i class="bi bi-arrow-up-left" aria-hidden="true"></i></button>
+      </form>
+
+      <div class="hero-trust"><span class="trust-avatars" aria-hidden="true"><b>ر</b><b>غ</b><b><i class="bi bi-shop"></i></b></span><span><strong><%= lang === 'ar' ? 'مجتمع محلي واحد' : 'One local community' %></strong><small><%= lang === 'ar' ? 'كل احتياجات المدينة في متناولك' : 'Everything in town, within reach' %></small></span></div>
+    </div>
+
+    <div class="hero-visual" data-tilt data-reveal aria-label="<%= lang === 'ar' ? 'تصميم تجريدي مستوحى من البحر والصحراء' : 'An abstract scene inspired by the sea and desert' %>">
+      <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+      <div class="visual-sun"></div>
+      <div class="visual-dune dune-back"></div><div class="visual-dune dune-front"></div>
+      <div class="visual-glass-card glass-card-main"><span class="glass-card-kicker"><i class="bi bi-geo-alt-fill"></i> <%= lang === 'ar' ? 'رأس غارب، مصر' : 'Ras Ghareb, Egypt' %></span><strong><%= lang === 'ar' ? 'مدينتك،' : 'Your town,' %><br><%= lang === 'ar' ? 'بكل تفاصيلها.' : 'all in one place.' %></strong><span class="glass-card-foot"><span><i class="bi bi-compass"></i> <%= lang === 'ar' ? 'اكتشف محليًا' : 'Explore local' %></span><i class="bi bi-arrow-up-left"></i></span></div>
+      <div class="floating-chip chip-market"><i class="bi bi-bag-heart"></i><span><b><%= lang === 'ar' ? 'السوق المحلي' : 'Local market' %></b><small><%= lang === 'ar' ? 'بيع وشراء بسهولة' : 'Buy and sell nearby' %></small></span></div>
+      <div class="floating-chip chip-community"><span class="community-icon"><i class="bi bi-people"></i></span><span><b><%= lang === 'ar' ? 'مجتمعك هنا' : 'Your community' %></b><small><%= lang === 'ar' ? 'اكتشف من حولك' : 'Find what is around' %></small></span></div>
+      <span class="visual-coordinate">28°21′N &nbsp; 33°05′E</span>
+    </div>
+  </div>
+  <div class="hero-bottom container"><span><%= lang === 'ar' ? 'وجهتك المحلية تبدأ من هنا' : 'YOUR LOCAL DESTINATION STARTS HERE' %></span><a href="#discover"><%= lang === 'ar' ? 'اكتشف المنصة' : 'Explore the platform' %><i class="bi bi-arrow-down"></i></a></div>
+</section>
+
+<section class="directory-strip" id="discover" aria-label="<%= lang === 'ar' ? 'أقسام المنصة' : 'Platform directories' %>">
+  <div class="container directory-grid">
+    <a href="/marketplace" class="directory-link" data-reveal><span class="directory-icon"><i class="bi bi-bag"></i></span><span><b><%= lang === 'ar' ? 'السوق' : 'Marketplace' %></b><small><%= lang === 'ar' ? 'منتجات من حولك' : 'Things nearby' %></small></span><i class="bi bi-arrow-up-left directory-arrow"></i></a>
+    <a href="/professionals" class="directory-link" data-reveal><span class="directory-icon"><i class="bi bi-tools"></i></span><span><b><%= lang === 'ar' ? 'المهنيون' : 'Professionals' %></b><small><%= lang === 'ar' ? 'خبرات تثق بها' : 'People you can trust' %></small></span><i class="bi bi-arrow-up-left directory-arrow"></i></a>
+    <a href="/stores" class="directory-link" data-reveal><span class="directory-icon"><i class="bi bi-shop-window"></i></span><span><b><%= lang === 'ar' ? 'المتاجر' : 'Local stores' %></b><small><%= lang === 'ar' ? 'تسوّق من مدينتك' : 'Shop your town' %></small></span><i class="bi bi-arrow-up-left directory-arrow"></i></a>
+    <a href="/businesses" class="directory-link" data-reveal><span class="directory-icon"><i class="bi bi-buildings"></i></span><span><b><%= lang === 'ar' ? 'الأعمال المحلية' : 'Local businesses' %></b><small><%= lang === 'ar' ? 'اعرف ما حولك' : 'See what is around' %></small></span><i class="bi bi-arrow-up-left directory-arrow"></i></a>
+  </div>
+</section>
+
+<section class="platform-intro section-space">
+  <div class="container intro-grid">
+    <div data-reveal><span class="section-kicker"><%= lang === 'ar' ? 'محلي. قريب. موثوق.' : 'LOCAL. CLOSE. TRUSTED.' %></span><h2><%= lang === 'ar' ? 'رأس غارب تجمعنا.' : 'Ras Ghareb brings us together.' %></h2></div>
+    <p data-reveal><%= lang === 'ar' ? 'من أول بحث إلى التواصل المباشر، نسهّل عليك الوصول إلى المنتجات والخدمات التي تحتاجها، وندعم أصحاب الأعمال في مجتمعنا.' : 'From your first search to a direct connection, find the products and services you need while supporting the people building our community.' %></p>
+  </div>
+</section>
+
+<section class="city-map-section section-space" aria-label="<%= lang === 'ar' ? 'موقع المدينة' : 'City location' %>">
+  <div class="container city-map-grid">
+    <div class="city-map-copy" data-reveal><span class="section-kicker"><%= lang === 'ar' ? 'قريب منك، أينما كنت' : 'A PLACE TO CALL HOME' %></span><h2><%= lang === 'ar' ? 'نلتقي في رأس غارب.' : 'Meet us in Ras Ghareb.' %></h2><p><%= lang === 'ar' ? 'تصفّح المدينة، اعثر على الأعمال القريبة، وابدأ من موقعنا على البحر الأحمر.' : 'Explore the city, find local businesses and start from our place on the Red Sea.' %></p><a class="city-map-link" href="https://www.google.com/maps/search/?api=1&query=28.3597%2C33.0775" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt-fill"></i><%= lang === 'ar' ? 'افتح الموقع على خرائط Google' : 'Open location in Google Maps' %><i class="bi bi-arrow-up-right"></i></a><small class="city-coordinates">28°21′35″N &nbsp; 33°04′39″E · <%= lang === 'ar' ? 'البحر الأحمر، مصر' : 'Red Sea, Egypt' %></small></div>
+    <a class="city-map-frame" href="https://www.google.com/maps/search/?api=1&query=28.3597%2C33.0775" target="_blank" rel="noopener noreferrer" aria-label="<%= lang === 'ar' ? 'افتح الخريطة في Google Maps' : 'Open map in Google Maps' %>" data-reveal><iframe title="<%= lang === 'ar' ? 'خريطة مدينة رأس غارب' : 'Ras Ghareb city map' %>" src="https://www.openstreetmap.org/export/embed.html?bbox=33.025%2C28.32%2C33.13%2C28.40&layer=mapnik&marker=28.3597%2C33.0775" loading="lazy" tabindex="-1"></iframe><span class="city-map-marker"><i class="bi bi-geo-alt-fill"></i> <%= lang === 'ar' ? 'رأس غارب' : 'RAS GHAREB' %></span><span class="city-map-expand"><i class="bi bi-arrows-fullscreen"></i></span></a>
+  </div>
+</section>
+
+<section class="listing-section section-space section-tint">
+  <div class="container">
+    <div class="section-heading" data-reveal><div><span class="section-kicker"><%= lang === 'ar' ? 'مختارة لك' : 'CURATED FOR YOU' %></span><h2><%= t('featured_products') %></h2></div><a class="section-link" href="/marketplace"><%= t('view_all') %><i class="bi bi-arrow-up-left"></i></a></div>
+    <div class="row g-3 listing-grid"><% if (!products.length) { %><p class="text-muted"><%= t('no_results') %></p><% } %><% products.forEach(p => { %><%- include('partials/card-product', { p }) %><% }) %></div>
+  </div>
+</section>
+
+<section class="listing-section section-space">
+  <div class="container">
+    <div class="section-heading" data-reveal><div><span class="section-kicker"><%= lang === 'ar' ? 'أصحاب الخبرة' : 'PEOPLE WHO KNOW THEIR CRAFT' %></span><h2><%= t('featured_professionals') %></h2></div><a class="section-link" href="/professionals"><%= t('view_all') %><i class="bi bi-arrow-up-left"></i></a></div>
+    <div class="row g-3 listing-grid"><% if (!professionals.length) { %><p class="text-muted"><%= t('no_results') %></p><% } %><% professionals.forEach(p => { %><%- include('partials/card-professional', { p }) %><% }) %></div>
+  </div>
+</section>
+
+<section class="listing-section section-space section-tint">
+  <div class="container">
+    <div class="section-heading" data-reveal><div><span class="section-kicker"><%= lang === 'ar' ? 'تسوّق بالقرب منك' : 'SHOP CLOSE TO HOME' %></span><h2><%= t('local_stores') %></h2></div><a class="section-link" href="/stores"><%= t('view_all') %><i class="bi bi-arrow-up-left"></i></a></div>
+    <div class="row g-3 listing-grid"><% if (!stores.length) { %><p class="text-muted"><%= t('no_results') %></p><% } %><% stores.forEach(s => { %><%- include('partials/card-store', { s }) %><% }) %></div>
+  </div>
+</section>
+
+<section class="listing-section section-space">
+  <div class="container">
+    <div class="section-heading" data-reveal><div><span class="section-kicker"><%= lang === 'ar' ? 'اكتشف مدينتك' : 'GET TO KNOW YOUR TOWN' %></span><h2><%= t('featured_businesses') %></h2></div><a class="section-link" href="/businesses"><%= t('view_all') %><i class="bi bi-arrow-up-left"></i></a></div>
+    <div class="row g-3 listing-grid"><% if (!businesses.length) { %><p class="text-muted"><%= t('no_results') %></p><% } %><% businesses.forEach(b => { %><%- include('partials/card-business', { b }) %><% }) %></div>
+  </div>
+</section>
+
+<section class="community-cta"><div class="container community-cta-inner" data-reveal><div><span class="section-kicker"><%= lang === 'ar' ? 'مكانك بيننا' : 'THERE IS A PLACE FOR YOU' %></span><h2><%= t('join_community') %></h2><p><%= lang === 'ar' ? 'اعرض منتجك أو خدمتك وساعد جيرانك في العثور عليك.' : 'List your product or service and help your neighbors find you.' %></p></div><div class="cta-actions"><a href="/marketplace/new" class="btn btn-light"><%= t('add_product') %></a><a href="/professionals/new" class="btn btn-outline-light"><%= t('add_professional') %></a><a href="/stores/new" class="btn btn-outline-light"><%= t('add_store') %></a><a href="/businesses/new" class="btn btn-outline-light"><%= t('add_business') %></a></div></div></section>

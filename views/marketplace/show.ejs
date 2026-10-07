@@ -1,0 +1,50 @@
+<div class="container my-4">
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div id="carousel" class="carousel slide border rounded overflow-hidden">
+        <div class="carousel-inner">
+          <% const imgs = (product.images && product.images.length) ? product.images : ['/img/placeholder.svg']; %>
+          <% imgs.forEach((img, i) => { %>
+            <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+              <img src="<%= img %>" class="d-block w-100" style="max-height:420px;object-fit:cover" onerror="this.src='/img/placeholder.svg'">
+            </div>
+          <% }) %>
+        </div>
+        <% if (imgs.length > 1) { %>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+        <% } %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3><%= lang === 'ar' ? product.title_ar : (product.title_en || product.title_ar) %></h3>
+      <h4 class="text-success fw-bold"><%= product.price %> <%= t('egp') %></h4>
+      <span class="badge bg-<%= product.status === 'approved' ? 'success' : (product.status === 'rejected' ? 'danger' : 'secondary') %> mb-2"><%= t('status_' + product.status) %></span>
+      <p><%= product.description %></p>
+
+      <div class="card p-3 my-3">
+        <h6><%= t('seller_info') %></h6>
+        <p class="mb-1"><%= seller ? seller.name : '' %></p>
+        <% if (store) { %><p class="mb-2"><a href="/stores/<%= store.id %>"><i class="bi bi-shop"></i> <%= store.name %></a></p><% } %>
+        <div class="d-flex gap-2">
+          <% if (seller && seller.whatsapp) { %>
+            <a class="btn btn-success btn-sm" target="_blank" href="https://wa.me/<%= seller.whatsapp.replace(/[^0-9]/g,'') %>"><i class="bi bi-whatsapp"></i> <%= t('contact_whatsapp') %></a>
+          <% } %>
+          <% if (seller && seller.phone) { %>
+            <a class="btn btn-outline-secondary btn-sm" href="tel:<%= seller.phone %>"><i class="bi bi-telephone"></i> <%= t('contact_phone') %></a>
+          <% } %>
+        </div>
+      </div>
+
+      <% if (currentUser && (currentUser.id === product.sellerId || ['primary_admin', 'secondary_admin', 'admin'].includes(currentUser.role))) { %>
+        <div class="d-flex gap-2 mb-3">
+          <a href="/marketplace/<%= product.id %>/edit" class="btn btn-sm btn-outline-secondary"><%= t('edit') %></a>
+          <form action="/marketplace/<%= product.id %>/delete" method="POST" onsubmit="return confirm('<%= t('delete') %>?')">
+            <button class="btn btn-sm btn-outline-danger"><%= t('delete') %></button>
+          </form>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  <%- include('../partials/reviews', { reviews, avgRating: null, targetType: 'product', targetId: product.id }) %>
+</div>

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: rasghareb-platform
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm install --production
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false

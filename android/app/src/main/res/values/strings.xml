@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">رأس غارب</string>
+    <string name="title_activity_main">رأس غارب</string>
+    <string name="package_name">com.rasghareb.app</string>
+    <string name="custom_url_scheme">com.rasghareb.app</string>
+</resources>

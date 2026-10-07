@@ -1,0 +1,40 @@
+<div class="container my-4" style="max-width:650px">
+  <h3 class="mb-3"><%= product ? t('edit') : t('add_product') %></h3>
+  <form method="POST" enctype="multipart/form-data" action="<%= product ? '/marketplace/' + product.id + '/edit' : '/marketplace/new' %>">
+    <div class="mb-3">
+      <label class="form-label">العنوان (عربي)</label>
+      <input type="text" name="title_ar" class="form-control" value="<%= product ? product.title_ar : '' %>" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Title (English) - optional</label>
+      <input type="text" name="title_en" class="form-control" value="<%= product ? product.title_en : '' %>">
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= t('description') %></label>
+      <textarea name="description" class="form-control" rows="4"><%= product ? product.description : '' %></textarea>
+    </div>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('price') %> (<%= t('egp') %>)</label>
+        <input type="number" step="0.01" name="price" class="form-control" value="<%= product ? product.price : '' %>" required>
+      </div>
+      <div class="col-6 mb-3">
+        <label class="form-label"><%= t('category') %></label>
+        <select name="categoryId" class="form-select">
+          <option value="">—</option>
+          <% categories.forEach(c => { %>
+            <option value="<%= c.id %>" <%= (product && product.categoryId === c.id) ? 'selected' : '' %>><%= lang === 'ar' ? c.name_ar : c.name_en %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label"><%= lang === 'ar' ? 'صور المنتج (حتى 5 صور)' : 'Product images (up to 5)' %></label>
+      <input type="file" name="images" class="form-control" accept="image/*" multiple>
+    </div>
+    <% if (myStore) { %>
+      <p class="text-muted small"><%= lang === 'ar' ? 'سيتم ربط هذا المنتج بمتجرك: ' : 'This product will be linked to your store: ' %><strong><%= myStore.name %></strong></p>
+    <% } %>
+    <button class="btn btn-primary"><%= t('save') %></button>
+  </form>
+</div>

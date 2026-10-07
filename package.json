@@ -1,0 +1,38 @@
+{
+  "name": "rasghareb-platform",
+  "version": "1.0.0",
+  "description": "منصة رأس غارب المحلية - سوق ومحترفين ومتاجر وأعمال في مكان واحد",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node seed.js",
+    "generate:icons": "node scripts/generate-icons.js && node scripts/populate-native-icons.js",
+    "cap:sync": "cap sync",
+    "cap:android": "cap open android",
+    "cap:ios": "cap open ios",
+    "build:apk": "cd android && gradlew.bat assembleDebug"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.5.3",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.14.3",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/ios": "^8.5.3",
+    "sharp": "^0.35.5"
+  }
+}

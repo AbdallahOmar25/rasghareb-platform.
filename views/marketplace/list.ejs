@@ -1,0 +1,54 @@
+<div class="container my-5">
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4" data-reveal>
+    <div>
+      <div class="eyebrow dark eyebrow-pill mb-2">
+        <span class="dot"></span>
+        <span><%= lang === 'ar' ? 'السوق المحلي' : 'Marketplace' %></span>
+      </div>
+      <h1 style="font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0;">
+        <%= t('nav_marketplace') %>
+      </h1>
+    </div>
+    <div>
+      <a href="/marketplace/new" class="pill-btn dark has-arrow">
+        <span><%= t('add_product') %></span>
+        <span class="pill-arrow-badge right"><i class="bi bi-plus-lg"></i></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Search & Filter Bar -->
+  <form class="p-3 mb-5 rounded-4 shadow-sm border bg-white" method="GET" data-reveal style="border-color: var(--lumora-line) !important;">
+    <div class="row g-2 align-items-center">
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-text bg-transparent border-0 pe-0 text-muted"><i class="bi bi-search"></i></span>
+          <input type="text" name="q" value="<%= q %>" class="form-control border-0" placeholder="<%= t('search_placeholder') %>">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <select name="category" class="form-select border-0 bg-light" style="border-radius: 12px;">
+          <option value=""><%= t('all_categories') %></option>
+          <% categories.forEach(c => { %>
+            <option value="<%= c.id %>" <%= category === c.id ? 'selected' : '' %>><%= lang === 'ar' ? c.name_ar : c.name_en %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="pill-btn dark w-100 justify-content-center no-arrow" style="padding-block: 0.65rem;"><%= t('search_btn') %></button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row g-3">
+    <% if (!items.length) { %>
+      <div class="col-12 py-5 text-center text-muted" data-reveal>
+        <i class="bi bi-inbox" style="font-size: 2.5rem; opacity: 0.5;"></i>
+        <p class="mt-2 mb-0"><%= t('no_results') %></p>
+      </div>
+    <% } %>
+    <% items.forEach(p => { %>
+      <%- include('../partials/card-product', { p }) %>
+    <% }) %>
+  </div>
+</div>
