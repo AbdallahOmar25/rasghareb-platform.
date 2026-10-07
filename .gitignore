@@ -1,5 +1,6 @@
 node_modules/
 .env
+cloudflared.exe
 New Text Document.txt
 data/db.json
 public/uploads/*
